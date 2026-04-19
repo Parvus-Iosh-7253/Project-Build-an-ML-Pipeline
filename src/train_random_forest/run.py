@@ -18,6 +18,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OrdinalEncoder, FunctionTransformer, OneHotEncoder
+from mlflow.models import infer_signature
 
 import wandb
 from sklearn.ensemble import RandomForestRegressor
@@ -92,10 +93,12 @@ def go(args):
     ######################################
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory "random_forest_dir"
     # HINT: use mlflow.sklearn.save_model
+
     mlflow.sklearn.save_model(
         sk_pipe,
         "random_forest_dir",
-        input_example = X_train.iloc[:5]
+        input_example = X_train.iloc[:5],
+        serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE
     )
     ######################################
 
